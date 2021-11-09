@@ -11,13 +11,13 @@ app.get("/", (req, res) => {
     .json({ message: "Escolha entre /paises, /estados, /cidades." });
 });
 
-const cervejaRouter = require("./paises");
+const cervejaRouter = require("./model/paises");
 app.use("/paises", cervejaRouter);
 
-const timeRouter = require("./estados");
+const timeRouter = require("./model/estados");
 app.use("/estados", timeRouter);
 
-const musicaRouter = require("./cidades");
+const musicaRouter = require("./model/cidades");
 app.use("/cidades", musicaRouter);
 
 app.listen(port, () => {
