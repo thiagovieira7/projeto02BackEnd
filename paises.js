@@ -96,9 +96,17 @@ router.put("/lista/:id", (req, res) => {
   const pais = req.body;
   const id = req.params.id - 1;
   lista[id] = pais;
-  res
-    .status(200)
-    .json({ message: `Dados do país alterados com sucesso: ${lista[id]}` });
+  if (!pais.nome | !pais.populacao | !pais.linguaMae | !pais.pib) {
+    res.status(400).send({
+      message:
+        "Informação para alteração não inserida/faltante. Por favor verifique o campdo Body da requisição.",
+    });
+
+    return;
+  } 
+    res.status(200).json({message: `Dados do país alterados com sucesso: ${lista[id]}`,
+    });
+  
 });
 
 router.delete("/lista/:id", (req, res) => {

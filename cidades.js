@@ -23,10 +23,6 @@ router.get("/lista/:id", (req, res) => {
   res.json(lista[id]);
 });
 
-router.get("/lista/:nome", (req, res) => {
-  res.status(200).json(lista);
-});
-
 router.get("/:nome", (req, res) => {
   const nome = req.params.nome;
   const cidade = lista.find((item) => item.nome === nome);
