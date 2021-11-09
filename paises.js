@@ -1,13 +1,6 @@
 const express = require("express");
 const router = express.Router();
 
-// const sequence = {
-//   __id: 1,
-//   get id() {
-//     return this.__id++;
-//   },
-// };
-
 let lista = [
   {
     nome: "Brasil",
@@ -18,25 +11,28 @@ let lista = [
 ];
 
 router.get("/", (req, res) => {
-  res.status(200).json({ message: "Dados por país" });
+  res.status(200).json({
+    message:
+      "Dados por país. Escolha entre as opções: ( /listall) ( /listname ) ( add ) ( update ) ( delete )",
+  });
 });
 
-router.get("/lista", (req, res) => {
+router.get("/listall", (req, res) => {
   res.json(lista);
 });
 
-router.get("/lista/:id", (req, res) => {
+router.get("/listall/:id", (req, res) => {
   const id = req.params.id - 1;
   res.json(lista[id]);
 });
 
-router.get("/:nome", (req, res) => {
+router.get("/listname:nome", (req, res) => {
   const nome = req.params.nome;
   const pais = lista.find((item) => item.nome === nome);
   res.status(200).json(pais);
 });
 
-router.get("/nome", (req, res) => {
+router.get("/listname", (req, res) => {
   const nome = req.params.nome;
   const index = lista.findIndex((item) => item.nome === nome);
   if (index == -1) {
@@ -46,21 +42,8 @@ router.get("/nome", (req, res) => {
   res.status(200).json({ index: index });
 });
 
-router.post("/lista", (req, res) => {
+router.post("/add", (req, res) => {
   const pais = req.body;
-  // function salvarPais(lista) {
-  //   if (!lista.id) lista.id = sequence.id;
-  //   lista[lista.id] = lista;
-  //   return lista;
-  // }
-
-  // const paisIndi = salvarPais({
-  //   id: req.body.id,
-  //   nome: req.body.nome,
-  //   populacao: req.body.populacao,
-  //   linguaMae: req.body.linguaMae,
-  //   pib: req.body.pib,
-  // });
 
   if (!pais.nome) {
     res.status(400).send({
@@ -92,7 +75,7 @@ router.post("/lista", (req, res) => {
   res.status(201).json({ message: "País cadastrado com sucesso..." });
 });
 
-router.put("/lista/:id", (req, res) => {
+router.put("/update/:id", (req, res) => {
   const pais = req.body;
   const id = req.params.id - 1;
   lista[id] = pais;
@@ -103,13 +86,13 @@ router.put("/lista/:id", (req, res) => {
     });
 
     return;
-  } 
-    res.status(200).json({message: `Dados do país alterados com sucesso: ${lista[id]}`,
-    });
-  
+  }
+  res
+    .status(200)
+    .json({ message: `Dados do país alterados com sucesso: ${lista[id]}` });
 });
 
-router.delete("/lista/:id", (req, res) => {
+router.delete("/delete/:id", (req, res) => {
   const id = req.params.id - 1;
   delete lista[id];
   console.log(lista[id]);
