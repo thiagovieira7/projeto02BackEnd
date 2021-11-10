@@ -11,22 +11,26 @@ let lista = [
 ];
 
 router.get("/", (req, res) => {
-  res.status(200).json({
-    message:
-      "Dados por país. Escolha entre as opções: ( /listall) ( /listname ) ( add ) ( update ) ( delete )",
-  });
+  res.status(200).json({ message: "Welcome to Cities Route" });
 });
 
+// router.get("/", (req, res) => {
+//   res.status(200).json({
+//     message:
+//       "Dados por país. Escolha entre as opções: ( /listall) ( /listname ) ( add ) ( update ) ( delete )",
+//   });
+// });
+
 router.get("/listall", (req, res) => {
-  res.json(lista);
+  res.status(200).json(lista);
 });
 
 router.get("/listall/:id", (req, res) => {
   const id = req.params.id - 1;
-  res.json(lista[id]);
+  res.status(200).json(lista[id]);
 });
 
-router.get("/listname:nome", (req, res) => {
+router.get("/listname/:nome", (req, res) => {
   const nome = req.params.nome;
   const pais = lista.find((item) => item.nome === nome);
   res.status(200).json(pais);
@@ -46,25 +50,25 @@ router.post("/add", (req, res) => {
   const pais = req.body;
 
   if (!pais.nome) {
-    res.status(400).send({
+    res.status(400).json({
       message:
         "NOME DO PAÍS inválido. Certifique-se que o body da requisição possui o NOME correto do (pais).",
     });
     return;
   } else if (!pais.populacao) {
-    res.status(400).send({
+    res.status(400).json({
       message:
         "POPULAÇÃO inválida. Certifique-se de que o body da requisição possui o numero total de habitantes no campo (populacao).",
     });
     return;
   } else if (!pais.linguaMae) {
-    res.status(400).send({
+    res.status(400).json({
       message:
         "IDIOMA NATIVO inválida. Certifique-se de que o body da requisição possui a informação da lingua nativa corretamente no campo (linguaMae).",
     });
     return;
   } else if (!pais.pib) {
-    res.status(400).send({
+    res.status(400).json({
       message:
         "PIB inválido. Certifique-se de que o body da requisição possui a informação do produto interno bruto no campo (pib).",
     });
@@ -80,13 +84,14 @@ router.put("/update/:id", (req, res) => {
   const id = req.params.id - 1;
   lista[id] = pais;
   if (!pais.nome | !pais.populacao | !pais.linguaMae | !pais.pib) {
-    res.status(400).send({
+    res.status(400).json({
       message:
-        "Informação para alteração não inserida/faltante. Por favor verifique o campdo Body da requisição.",
+        "Informação para alteração não inserida faltante. Por favor verifique o campo Body da requisição.",
     });
 
     return;
   }
+
   res
     .status(200)
     .json({ message: `Dados do país alterados com sucesso: ${lista[id]}` });

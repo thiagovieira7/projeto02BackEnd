@@ -1,4 +1,3 @@
-//construir com temas de  cerveja / time / livre...
 const express = require("express");
 const app = express();
 const port = 3001;
@@ -11,14 +10,14 @@ app.get("/", (req, res) => {
     .json({ message: "Escolha entre /paises, /estados, /cidades." });
 });
 
-const cervejaRouter = require("./model/paises");
-app.use("/paises", cervejaRouter);
+const paisesRouter = require("./paises");
+app.use("/paises", paisesRouter);
 
-const timeRouter = require("./model/estados");
-app.use("/estados", timeRouter);
+// const estadosRouter = require("./estados");
+// app.use("/estados", estadosRouter);
 
-const musicaRouter = require("./model/cidades");
-app.use("/cidades", musicaRouter);
+// const cidadesRouter = require("./cidades");
+// app.use("/cidades", cidadesRouter);
 
 app.listen(port, () => {
   console.info(`App rodando em http://localhost:${port}`);

@@ -11,25 +11,28 @@ let lista = [
 ];
 
 router.get("/", (req, res) => {
-  res.status(200).json({ message: "Dados por cidade" });
+  res.status(200).json({
+    message:
+      "Dados por cidade.  Escolha entre as opções: ( /listall) ( /listname ) ( add ) ( update ) ( delete )",
+  });
 });
 
-router.get("/lista", (req, res) => {
+router.get("/listall", (req, res) => {
   res.json(lista);
 });
 
-router.get("/lista/:id", (req, res) => {
+router.get("/listall/:id", (req, res) => {
   const id = req.params.id - 1;
   res.json(lista[id]);
 });
 
-router.get("/:nome", (req, res) => {
+router.get("/:listname", (req, res) => {
   const nome = req.params.nome;
   const cidade = lista.find((item) => item.nome === nome);
   res.status(200).json(cidade);
 });
 
-router.get("/nome", (req, res) => {
+router.get("/listname", (req, res) => {
   const nomeCidade = req.params.nome;
   const index = lista.findIndex((item) => item.nomeCidade === nome);
   if (index == -1) {
@@ -39,7 +42,7 @@ router.get("/nome", (req, res) => {
   res.status(200).json({ index: index });
 });
 
-router.post("/lista", (req, res) => {
+router.post("/add", (req, res) => {
   const cidade = req.body;
   if (!cidade.nome) {
     res.status(400).send({
@@ -71,16 +74,30 @@ router.post("/lista", (req, res) => {
   res.status(201).json({ message: "Cidade cadastrada com sucesso..." });
 });
 
-router.put("/lista/:id", (req, res) => {
+router.put("/update/:id", (req, res) => {
   const cidade = req.body;
   const id = req.params.id - 1;
   lista[id] = cidade;
+  if (
+    !cidades.nome |
+    !cidades.qtdBairros |
+    !cidades.populacao |
+    !cidades.deAniversario
+  ) {
+    res.status(400).send({
+      message:
+        "Informação para alteração não inserida/faltante. Por favor verifique o campo Body da requisição.",
+    });
+
+    return;
+  }
+
   res
     .status(200)
     .json({ message: `Dados da Cidade alterados com sucesso: ${lista[id]}` });
 });
 
-router.delete("/lista/:id", (req, res) => {
+router.delete("/delete/:id", (req, res) => {
   const id = req.params.id - 1;
   delete lista[id];
   console.log(lista[id]);
