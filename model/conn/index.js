@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 async function Conn(){
-    await mongoose.connect("mongodb://localhost:3001/API_BACKEND",{
+    await mongoose.connect("mongodb://localhost:27017/API_BACKEND",{
         useNewUrlParser: true,
         useUnifiedTopology: true,
     }).then(() => {
