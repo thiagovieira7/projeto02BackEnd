@@ -1,6 +1,8 @@
 const express = require("express");
 const router = express.Router();
 
+const paises = require("./../model/paises");
+
 let lista = [
   {
     nome: "Brasil",
