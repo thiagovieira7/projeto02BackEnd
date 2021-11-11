@@ -11,14 +11,14 @@ app.get("/", (req, res) => {
   res.status(200).json({ message: "Escolha entre /paises, /estados, /cidades." });
 });
 
-const paisesRouter = require("./paises");
+const paisesRouter = require("./routers/paises.routes");
 app.use("/paises", paisesRouter);
 
-// const estadosRouter = require("./estados");
-// app.use("/estados", estadosRouter);
+const estadosRouter = require("./routers/estados.routes");
+app.use("/estados", estadosRouter);
 
-// const cidadesRouter = require("./cidades");
-// app.use("/cidades", cidadesRouter);
+const cidadesRouter = require("./routers/cidades.routes");
+app.use("/cidades", cidadesRouter);
 
 app.listen(port, () => {
   console.info(`App rodando em http://localhost:${port}`);
