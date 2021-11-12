@@ -43,22 +43,22 @@ router.get("/listname/:nome", async (req, res) => {
 
 router.post("/add", async (req, res) => {
   
-  if (!paises.nome) {
+  if (!req.body.nome) {
     res.status(400).json({ message: "NOME DO PAÍS inválido. Certifique-se que o body da requisição possui o NOME correto do (pais)." });
     return;
-  } else if (!paises.populacao) {
+  } else if (!req.body.populacao) {
     res.status(400).json({ message: "POPULAÇÃO inválida. Certifique-se de que o body da requisição possui o numero total de habitantes no campo (populacao)." });
     return;
-  } else if (!paises.linguaMae) {
+  } else if (!req.body.linguaMae) {
     res.status(400).json({ message: "IDIOMA NATIVO inválida. Certifique-se de que o body da requisição possui a informação da lingua nativa corretamente no campo (linguaMae)." });
     return;
-  } else if (!paises.pib) {
+  } else if (!req.body.pib) {
     res.status(400).json({ message: "PIB inválido. Certifique-se de que o body da requisição possui a informação do produto interno bruto no campo (pib)." });
     return;
   }
 
   await paises.create(req.body).then(() => {
-    res.status(200).json({ message: "País cadastrado com sucesso..." })
+    res.status(200).json({ message: "País cadastrado com sucesso." })
   }).catch((err) => {
     res.status(400).json({ message: "Erro ao cadastrar" });
     console.error(err);
@@ -68,8 +68,8 @@ router.post("/add", async (req, res) => {
 });
 
 router.put("/update/:id", async (req, res) => {
-  const id = req.params.id - 1;
-  if (!paises.nome | !paises.populacao | !paises.linguaMae | !paises.pib) {
+  const id = req.params.id;
+  if (!req.body.nome | !req.body.populacao | !req.body.linguaMae | !req.body.pib) {
     res.status(400).json({ message: "Informação para alteração não inserida faltante. Por favor verifique o campo Body da requisição." });
 
     return;
