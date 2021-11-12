@@ -79,7 +79,7 @@ router.put("/update/:id", async (req, res) => {
   };
 
   await paises.updateOne({ __id:id}, req.body).then(() => {
-    res.status(200).json({ message: `Dados do país alterados com sucesso});
+    res.status(200).json({ message: `Dados do país alterados com sucesso`});
   }).catch((er) => {
     console.error(err);
     res.status(400).json({ message: "Erro ao atualizar" });
