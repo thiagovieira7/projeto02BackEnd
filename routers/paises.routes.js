@@ -15,19 +15,9 @@ router.get("/listall", async (req, res) => {
   })
 });
 
-router.get("/listall/:id", async (req, res) => {
-  const id = req.params.id - 1;
-  await paises.find({}).then((paises) => {
-    res.status(200).json(paises[id]);
 
-  }).catch((err) => {
-    console.error(err);
-  })
-}); //verificar se esta correto
-
-router.get("/listname/:nome", async (req, res) => {
-  const nome = req.params.nome;
-  await paises.findOne({ name: nome }).then((paises) => {//verofocar p name:nome
+router.get("/listname/:id", async (req, res) => {
+    await paises.findById(req.params.id).then((paises) => {//verofocar p name:nome
     console.log(paises);
     if (paises == null) {
       res.status(404).json({ message: "Não localizado" });
@@ -64,23 +54,25 @@ router.post("/add", async (req, res) => {
     console.error(err);
   })
   
-    
+  
 });
 
 router.put("/update/:id", async (req, res) => {
   const id = req.params.id;
-  if (!req.body.nome | !req.body.populacao | !req.body.linguaMae | !req.body.pib) {
+  
+  if (!id) {
+  res.status(400).json({ message: "Faltando inserir o id na URL" });
+  return;
+  
+  } else if (!req.body.nome || !req.body.populacao || !req.body.linguaMae || !req.body.pib) {
     res.status(400).json({ message: "Informação para alteração não inserida faltante. Por favor verifique o campo Body da requisição." });
 
     return;
-  } else if (!id) {
-    res.status(400).json({ message: "Faltando inserir o id na URL" });
-    return;
   };
 
-  await paises.updateOne({ __id:id}, req.body).then(() => {
+  await paises.findByIdAndUpdate(req.params.id, req.body).then(() => {
     res.status(200).json({ message: `Dados do país alterados com sucesso`});
-  }).catch((er) => {
+  }).catch((err) => {
     console.error(err);
     res.status(400).json({ message: "Erro ao atualizar" });
   });
@@ -88,18 +80,21 @@ router.put("/update/:id", async (req, res) => {
 });
 
 router.delete("/delete/:id", async (req, res) => {
-  if (req.params.id.lenght == 24) {
-    await paises.deleteOne({ __id: req.params.id }).then(() => {
-      res.status(200).json({ message: "Deletado com sucesso" });
-    }).catch((err) => {
-      console.error(err);
-      res.status(400).json({ message: "Erro ao deletar" });
-    });
-
-  } else {
+  if (!req.params.id.length !== 24) {
     res.status(400).json({ message: "id precisa ter 24 caracteres" });
+    return;
   }
   
+  await paises.findByIdAndDelete(req.params.id).then(() => {
+    res.status(200).json({ message: "Deletado com sucesso" });
+  }).catch((err) => {
+    console.error(err);
+    res.status(400).json({ message: "Erro ao deletar" });
+  });
+
 });
+
+ 
+
 
 module.exports = router;
