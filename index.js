@@ -1,11 +1,12 @@
 const express = require("express");
 const app = express();
-const Conn = require("./model/conn/index");
-const port = 3001;
 
 app.use(express.json());
+const Conn = require("./model/conn/index");
 
 Conn();
+
+const port = 3001;
 
 app.get("/", (req, res) => {
   res.status(200).json({ message: "Escolha entre /paises, /estados, /cidades." });

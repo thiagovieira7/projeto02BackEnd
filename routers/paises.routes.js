@@ -67,7 +67,7 @@ router.post("/add", async (req, res) => {
     
 });
 
-router.put("/update/:id", (req, res) => {
+router.put("/update/:id", async (req, res) => {
   const id = req.params.id - 1;
   if (!paises.nome | !paises.populacao | !paises.linguaMae | !paises.pib) {
     res.status(400).json({ message: "Informação para alteração não inserida faltante. Por favor verifique o campo Body da requisição." });
@@ -78,8 +78,8 @@ router.put("/update/:id", (req, res) => {
     return;
   };
 
-  await paises.updateOne({ __id: id }, req.body).then(() => {
-    res.status(200).json({ message: `Dados do país alterados com sucesso: ${lista[id]}` });
+  await paises.updateOne({ __id:id}, req.body).then(() => {
+    res.status(200).json({ message: `Dados do país alterados com sucesso});
   }).catch((er) => {
     console.error(err);
     res.status(400).json({ message: "Erro ao atualizar" });
