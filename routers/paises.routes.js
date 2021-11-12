@@ -1,43 +1,43 @@
 const express = require("express");
 const router = express.Router();
-
-// const paises = require("./../model/paises");
-
-let lista = [
-  {
-    nome: "Brasil",
-    populacao: 213300000,
-    linguaMae: "Português Brasileiro",
-    pib: 7400000
-  },
-];
+const paises = require("./../model/paises");
 
 router.get("/", (req, res) => {
-  res.status(200).json({ message: "Dados por país. Escolha entre as opções: ( /listall) ( /listname ) ( add ) ( update ) ( delete )", });
+  res.status(200).json({ message: "Rota país ok. Escolha entre as opções: ( /listall) ( /listname ) ( add ) ( update ) ( delete )", });
 });
 
-router.get("/listall", (req, res) => {
-  res.status(200).json(lista);
+router.get("/listall", async (req, res) => {
+  await paises.find({}).then((paises) => {
+    res.status(200).json(paises);
+  }).catch((err) => {
+    res.status(204).json({ message: "Informação não encontrado" });
+    console.error(err);
+  })
 });
 
-router.get("/listall/:id", (req, res) => {
-  const id = req.params.id - 1;
-  res.status(200).json(lista[id]);
-});
+// router.get("/listall/:id", (req, res) => {
+//   const id = req.params.id - 1;
+//   res.status(200).json(lista[id]);
+// });
 
-router.get("/listname/:nome", (req, res) => {
+router.get("/listname/:nome", async (req, res) => {
   const nome = req.params.nome;
-  const index = lista.findIndex((item) => item.nome === nome);
-  if (index == -1) {
-    res.status(204);
-    return;
-  }
-  res.status(200).json({ index: index });
+  await pais.findOne({ name: nome }).then((pais) => {//verofocar p name:nome
+    console.log(pais);
+    if (pais == null) {
+      res.status(404).json({ message: "Não localizado" });
+    } else {
+      res.status(200).json(pais);
+    }
+    
+  }).catch((err) => {
+    res.status(404).json({ message: "Nenhum resultado encontrado" });
+    console.error(err);
+  });
 });
 
-router.post("/add", (req, res) => {
-  const pais = req.body;
-
+router.post("/add", async (req, res) => {
+  
   if (!pais.nome) {
     res.status(400).json({ message: "NOME DO PAÍS inválido. Certifique-se que o body da requisição possui o NOME correto do (pais)." });
     return;
@@ -52,28 +52,49 @@ router.post("/add", (req, res) => {
     return;
   }
 
-  lista.push(pais);
-  res.status(201).json({ message: "País cadastrado com sucesso..." });
+  await pais.create(req.body).then(() => {
+    res.status(200).json({ message: "País cadastrado com sucesso..." })
+  }).catch((err) => {
+    res.status(400).json({ message: "Erro ao cadastrar" });
+    console.error(err);
+  })
+  
+    
 });
 
 router.put("/update/:id", (req, res) => {
-  const pais = req.body;
   const id = req.params.id - 1;
-  lista[id] = pais;
   if (!pais.nome | !pais.populacao | !pais.linguaMae | !pais.pib) {
     res.status(400).json({ message: "Informação para alteração não inserida faltante. Por favor verifique o campo Body da requisição." });
 
     return;
-  }
+  } else if (!id) {
+    res.status(400).json({ message: "Faltando inserir o id na URL" });
+    return;
+  };
 
-  res.status(200).json({ message: `Dados do país alterados com sucesso: ${lista[id]}` });
+  await pais.updateOne({ __id: id }, req.body).then(() => {
+    res.status(200).json({ message: `Dados do país alterados com sucesso: ${lista[id]}` });
+  }).catch((er) => {
+    console.error(err);
+    res.status(400).json({ message: "Erro ao atualizar" });
+  });
+
 });
 
-router.delete("/delete/:id", (req, res) => {
-  const id = req.params.id - 1;
-  delete lista[id];
-  console.log(lista[id]);
-  res.status(200).json(lista);
+router.delete("/delete/:id", async (req, res) => {
+  if (req.params.id.lenght == 24) {
+    await pais.deleteOne({ __id: req.params.id }).then(() => {
+      res.status(200).json({ message: "Deletado com sucesso" });
+    }).catch((err) => {
+      console.error(err);
+      res.status(400).json({ message: "Erro ao deletar" });
+    });
+
+  } else {
+    res.status(400).json({ message: "id precisa ter 24 caracteres" });
+  }
+  
 });
 
 module.exports = router;
