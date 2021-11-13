@@ -1,4 +1,4 @@
-const paises = require("./../models/paises");
+const paises = require("../model/paises");
 
 exports.getAll = async (req, res) => {
   await paises
@@ -12,10 +12,12 @@ exports.getAll = async (req, res) => {
     });
 };
 
-exports.getName = async(req, res => {
-    await paises.findById(req.params.id).then((paises) => {
-        console.log(paises.name);            
-        
+exports.getName = async (req, res) => {
+  await paises
+    .findById(req.params.id)
+    .then((paises) => {
+      console.log(paises.name);
+
       if (paises == null) {
         res.status(404).json({ message: "Não localizado" });
       } else {
@@ -26,40 +28,32 @@ exports.getName = async(req, res => {
       res.status(404).json({ message: "Nenhum resultado encontrado" });
       console.error(err);
     });
-});
+};
 
 exports.postAdd = async (req, res) => {
   if (!req.body.nome) {
-    res
-      .status(400)
-      .json({
-        message:
-          "NOME DO PAÍS inválido. Certifique-se que o body da requisição possui o NOME correto do (pais).",
-      });
+    res.status(400).json({
+      message:
+        "NOME DO PAÍS inválido. Certifique-se que o body da requisição possui o NOME correto do (pais).",
+    });
     return;
   } else if (!req.body.populacao) {
-    res
-      .status(400)
-      .json({
-        message:
-          "POPULAÇÃO inválida. Certifique-se de que o body da requisição possui o numero total de habitantes no campo (populacao).",
-      });
+    res.status(400).json({
+      message:
+        "POPULAÇÃO inválida. Certifique-se de que o body da requisição possui o numero total de habitantes no campo (populacao).",
+    });
     return;
   } else if (!req.body.linguaMae) {
-    res
-      .status(400)
-      .json({
-        message:
-          "IDIOMA NATIVO inválida. Certifique-se de que o body da requisição possui a informação da lingua nativa corretamente no campo (linguaMae).",
-      });
+    res.status(400).json({
+      message:
+        "IDIOMA NATIVO inválida. Certifique-se de que o body da requisição possui a informação da lingua nativa corretamente no campo (linguaMae).",
+    });
     return;
   } else if (!req.body.pib) {
-    res
-      .status(400)
-      .json({
-        message:
-          "PIB inválido. Certifique-se de que o body da requisição possui a informação do produto interno bruto no campo (pib).",
-      });
+    res.status(400).json({
+      message:
+        "PIB inválido. Certifique-se de que o body da requisição possui a informação do produto interno bruto no campo (pib).",
+    });
     return;
   }
 
@@ -75,7 +69,6 @@ exports.postAdd = async (req, res) => {
 };
 
 exports.putUpdate = async (req, res) => {
-  
   if (!id) {
     res.status(400).json({ message: "Faltando inserir o id na URL" });
     return;
@@ -85,12 +78,10 @@ exports.putUpdate = async (req, res) => {
     !req.body.linguaMae ||
     !req.body.pib
   ) {
-    res
-      .status(400)
-      .json({
-        message:
-          "Informação para alteração não inserida faltante. Por favor verifique o campo Body da requisição.",
-      });
+    res.status(400).json({
+      message:
+        "Informação para alteração não inserida faltante. Por favor verifique o campo Body da requisição.",
+    });
 
     return;
   }
@@ -122,4 +113,3 @@ exports.deleteDell = async (req, res) => {
       res.status(400).json({ message: "Erro ao deletar" });
     });
 };
-
