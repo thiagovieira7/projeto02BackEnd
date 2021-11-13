@@ -1,14 +1,14 @@
 const express = require("express");
 const router = express.Router();
 
-let lista = [
-  {
-    nome: "Paraná",
-    regiao: "Sul",
-    populacao: 11597484,
-    vlSalarioMin: 110195,
-  },
-];
+// let lista = [
+//   {
+//     nome: "Paraná",
+//     regiao: "Sul",
+//     populacao: 11597484,
+//     vlSalarioMin: 110195,
+//   },
+// ];
 
 router.get("/", (req, res) => {
   res.status(200).json({ message: "Dados por Estado" });
