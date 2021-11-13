@@ -11,7 +11,7 @@
     "node-sass": "^6.0.1"
   },
   "scripts": {
-    "start": "node index",
+    "start": "node index.js",
     "dev": "nodemon index",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
