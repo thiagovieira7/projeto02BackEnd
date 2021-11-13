@@ -1,14 +1,14 @@
 const express = require("express");
 const router = express.Router();
 
-let lista = [
-  {
-    nome: "Cascavel",
-    qtdBairros: 30,
-    populacao: 336073,
-    dtAniversario: 14 / 11 / 1951,
-  },
-];
+// let lista = [
+//   {
+//     nome: "Cascavel",
+//     qtdBairros: 30,
+//     populacao: 336073,
+//     dtAniversario: 14 / 11 / 1951,
+//   },
+// ];
 
 router.get("/", (req, res) => {
   res.status(200).json({
