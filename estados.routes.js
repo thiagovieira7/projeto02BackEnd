@@ -9,7 +9,7 @@ router.get("/", (req, res) => {
   });
 });
 
-router.get("/readAll", (req, res) => {
+router.get("/lista", (req, res) => {
   res.json(listas);
 });
 

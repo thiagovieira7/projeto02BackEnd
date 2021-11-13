@@ -1,15 +1,24 @@
 const express = require("express");
+
 const app = express();
 
+require('dotenv)').config();
+
+var cors = require("cors");
+
 app.use(express.json());
+
 const Conn = require("./model/conn/index");
 
 Conn();
 
-const port = 3001;
+app.use(cors());
+app.options("", cors());
 
 app.get("/", (req, res) => {
-  res.status(200).json({ message: "Escolha entre /paises, /estados, /cidades." });
+  res
+    .status(200)
+    .json({ message: "Escolha entre /paises, /estados, /cidades." });
 });
 
 const paisesRouter = require("./routers/paises.routes");
