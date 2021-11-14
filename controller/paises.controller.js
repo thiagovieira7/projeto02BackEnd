@@ -1,37 +1,37 @@
 const paises = require("../model/paises");
 
-function validarAddUpdt(res, reqisicao) {
-  if (!reqisicao.nome) {
-    res.status(400).json({
-      message: "NOME inválido. Verifique as informações da requisição no body.",
-    });
-    return true;
-  } else if (!req.body.populacao) {
-    res.status(400).json({
-      message:
-        "POPULAÇÃO inválida. Verifique as informações da requisição no body",
-    });
-    return true;
-  } else if (!req.body.linguaMae) {
-    res.status(400).json({
-      message:
-        "LINGUAMAE inválida. Verifique as informações da requisição no body.",
-    });
-    return true;
-  } else if (!req.body.pib) {
-    res.status(400).json({
-      message: "PIB inválido. Verifique as informações da requisição no body.",
-    });
-    return true;
-  }
-}
+// function validarAddUpdt(res, reqisicao) {
+//   if (!reqisicao.nome) {
+//     res.status(400).json({
+//       message: "NOME inválido. Verifique as informações da requisição no body.",
+//     });
+//     return true;
+//   } else if (!req.body.populacao) {
+//     res.status(400).json({
+//       message:
+//         "POPULAÇÃO inválida. Verifique as informações da requisição no body",
+//     });
+//     return true;
+//   } else if (!req.body.linguaMae) {
+//     res.status(400).json({
+//       message:
+//         "LINGUAMAE inválida. Verifique as informações da requisição no body.",
+//     });
+//     return true;
+//   } else if (!req.body.pib) {
+//     res.status(400).json({
+//       message: "PIB inválido. Verifique as informações da requisição no body.",
+//     });
+//     return true;
+//   }
+// }
 
-function validaId(res, id) {
-  if (id.length !== 24) {
-    res.status(400).json({ message: "id precisa ter 24 caracteres" });
-    return true;
-  }
-}
+// function validaId(res, id) {
+//   if (id.length !== 24) {
+//     res.status(400).json({ message: "id precisa ter 24 caracteres" });
+//     return true;
+//   }
+// }
 
 exports.getAll = async (req, res) => {
   await paises
@@ -46,7 +46,7 @@ exports.getAll = async (req, res) => {
 };
 
 exports.getName = async (req, res) => {
-  if(validaId(res, req.params.id)) return;
+  if (validaId(res, req.params.id)) return;
   await paises
     .findById(req.params.id)
     .then((paises) => {
@@ -65,7 +65,7 @@ exports.getName = async (req, res) => {
 };
 
 exports.postAdd = async (req, res) => {
-  if(validarAddUpdt(res, req.body)) return;
+  // if (validarAddUpdt(res, req.body)) return;
   await paises
     .create(req.body)
     .then(() => {
@@ -78,8 +78,8 @@ exports.postAdd = async (req, res) => {
 };
 
 exports.putUpdate = async (req, res) => {
-  if(validaId(res, req.params.id)) return;
-  if(validarAddUpdt(res, req.body)) return;
+  // if (validaId(res, req.params.id)) return;
+  // if (validarAddUpdt(res, req.body)) return;
   await paises
     .findByIdAndUpdate(req.params.id, req.body)
     .then(() => {
@@ -92,7 +92,7 @@ exports.putUpdate = async (req, res) => {
 };
 
 exports.deleteDell = async (req, res) => {
-  if(validaId(res, req.params.id)) return;
+  // if (validaId(res, req.params.id)) return;
   await paises
     .findByIdAndDelete(req.params.id)
     .then(() => {
