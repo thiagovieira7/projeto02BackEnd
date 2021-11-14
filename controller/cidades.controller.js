@@ -1,4 +1,4 @@
-const cidades = require("../model/cidades");
+const cidades = require("./../model/cidades");
 
 function validarAddUpdt(res, reqisicao) {
   if (!reqisicao.nome) {
@@ -47,7 +47,7 @@ exports.getAll = async (req, res) => {
 };
 
 exports.getName = async (req, res) => {
-  if(validaId(res, req.params.id)) return;
+  if (validaId(res, req.params.id)) return;
   await cidades
     .findById(req.params.id)
     .then((cidades) => {
@@ -66,7 +66,7 @@ exports.getName = async (req, res) => {
 };
 
 exports.postAdd = async (req, res) => {
-  if(validarAddUpdt(res, req.body)) return;
+  if (validarAddUpdt(res, req.body)) return;
 
   await cidades
     .create(req.body)
@@ -80,8 +80,8 @@ exports.postAdd = async (req, res) => {
 };
 
 exports.putUpdate = async (req, res) => {
-  if(validaId(res, req.params.id)) return;
-  if(validarAddUpdt(res, req.body)) return;
+  if (validaId(res, req.params.id)) return;
+  if (validarAddUpdt(res, req.body)) return;
   await cidades
     .findByIdAndUpdate(req.params.id, req.body)
     .then(() => {
@@ -96,7 +96,7 @@ exports.putUpdate = async (req, res) => {
 };
 
 exports.deleteDell = async (req, res) => {
-  if(validaId(res, req.params.id)) return;
+  if (validaId(res, req.params.id)) return;
   await cidades
     .findByIdAndDelete(req.params.id)
     .then(() => {
