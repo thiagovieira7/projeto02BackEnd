@@ -33,26 +33,24 @@ exports.getName = async (req, res) => {
 exports.postAdd = async (req, res) => {
   if (!req.body.nome) {
     res.status(400).json({
-      message:
-        "NOME DO PAÍS inválido. Certifique-se que o body da requisição possui o NOME correto do (pais).",
+      message: "NOME inválido. Verifique as informações da requisição no body.",
     });
     return;
   } else if (!req.body.populacao) {
     res.status(400).json({
       message:
-        "POPULAÇÃO inválida. Certifique-se de que o body da requisição possui o numero total de habitantes no campo (populacao).",
+        "POPULAÇÃO inválida. Verifique as informações da requisição no body",
     });
     return;
   } else if (!req.body.linguaMae) {
     res.status(400).json({
       message:
-        "IDIOMA NATIVO inválida. Certifique-se de que o body da requisição possui a informação da lingua nativa corretamente no campo (linguaMae).",
+        "LINGUAMAE inválida. Verifique as informações da requisição no body.",
     });
     return;
   } else if (!req.body.pib) {
     res.status(400).json({
-      message:
-        "PIB inválido. Certifique-se de que o body da requisição possui a informação do produto interno bruto no campo (pib).",
+      message: "PIB inválido. Verifique as informações da requisição no body.",
     });
     return;
   }
@@ -80,7 +78,7 @@ exports.putUpdate = async (req, res) => {
   ) {
     res.status(400).json({
       message:
-        "Informação para alteração não inserida faltante. Por favor verifique o campo Body da requisição.",
+        "Informação para alteração não inserida/faltante. Por favor verifique o campo Body da requisição.",
     });
 
     return;
