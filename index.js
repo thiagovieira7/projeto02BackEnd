@@ -24,11 +24,11 @@ app.get("/", (req, res) => {
 const paisesRouter = require("./routers/paises.routes");
 app.use("/paises", paisesRouter);
 
-// const estadosRouter = require("./routers/estados.routes");
-// app.use("/estados", estadosRouter);
+const estadosRouter = require("./routers/estados.routes");
+app.use("/estados", estadosRouter);
 
-// const cidadesRouter = require("./routers/cidades.routes");
-// app.use("/cidades", cidadesRouter);
+const cidadesRouter = require("./routers/cidades.routes");
+app.use("/cidades", cidadesRouter);
 
 app.listen(process.env.PORT, () => {
   console.info(`App rodando em http://localhost:${process.env.PORT}`);
