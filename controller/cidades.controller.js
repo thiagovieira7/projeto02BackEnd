@@ -1,36 +1,36 @@
 const cidades = require("../model/cidades");
 
-function validarAddUpdt(reqisicao) {
+function validarAddUpdt(res, reqisicao) {
   if (!reqisicao.nome) {
     res.status(400).send({
       message: "NOME inválido. Verifique as informações da requisição no body.",
     });
-    return;
+    return true;
   } else if (!reqisicao.qtdBairros) {
     res.status(400).send({
       message:
         "QTDBAIRROS inválida. Verifique as informações da requisição no body.",
     });
-    return;
+    return true;
   } else if (!reqisicao.populacao) {
     res.status(400).send({
       message:
         "POPULAÇÃO inválida. Verifique as informações da requisição no body.",
     });
-    return;
+    return true;
   } else if (!reqisicao.dtAniversario) {
     res.status(400).send({
       message:
         "DTANIVERSARIO inválida. Verifique as informações da requisição no body.",
     });
-    return;
+    return true;
   }
 }
 
-function validaId(id) {
+function validaId(res, id) {
   if (id.length !== 24) {
     res.status(400).json({ message: "id precisa ter 24 caracteres" });
-    return;
+    return true;
   }
 }
 
@@ -47,7 +47,7 @@ exports.getAll = async (req, res) => {
 };
 
 exports.getName = async (req, res) => {
-  validaId(res, req.params.id);
+  if(validaId(res, req.params.id)) return;
   await cidades
     .findById(req.params.id)
     .then((cidades) => {
@@ -66,7 +66,7 @@ exports.getName = async (req, res) => {
 };
 
 exports.postAdd = async (req, res) => {
-  validarAddUpdt(res, req.body);
+  if(validarAddUpdt(res, req.body)) return;
 
   await cidades
     .create(req.body)
@@ -80,8 +80,8 @@ exports.postAdd = async (req, res) => {
 };
 
 exports.putUpdate = async (req, res) => {
-  validaId(res, req.params.id);
-  validarAddUpdt(res, req.body);
+  if(validaId(res, req.params.id)) return;
+  if(validarAddUpdt(res, req.body)) return;
   await cidades
     .findByIdAndUpdate(req.params.id, req.body)
     .then(() => {
@@ -96,7 +96,7 @@ exports.putUpdate = async (req, res) => {
 };
 
 exports.deleteDell = async (req, res) => {
-  validaId(res, req.params.id);
+  if(validaId(res, req.params.id)) return;
   await cidades
     .findByIdAndDelete(req.params.id)
     .then(() => {

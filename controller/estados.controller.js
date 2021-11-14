@@ -1,36 +1,36 @@
 const estados = require("../model/estados");
 
-function validarAddUpdt(reqisicao) {
+function validarAddUpdt(res, reqisicao) {
   if (!reqisicao.nome) {
     res.status(400).send({
       message: "NOME inválido. Verifique as informações da requisição no body.",
     });
-    return;
+    return true;
   } else if (!req.body.regiao) {
     res.status(400).send({
       message:
         "REGIAO inválida. Verifique as informações da requisição no body.",
     });
-    return;
+    return true;
   } else if (!req.body.populacao) {
     res.status(400).send({
       message:
         "POPULAÇÃO inválida. Verifique as informações da requisição no body.",
     });
-    return;
+    return true;
   } else if (!req.body.vlSalarioMin) {
     res.status(400).send({
       message:
         "VLSALARIOMIN inválidO. Verifique as informações da requisição no body.",
     });
-    return;
+    return true;
   }
 }
 
-function validaId(id) {
+function validaId(res, id) {
   if (id.length !== 24) {
     res.status(400).json({ message: "id precisa ter 24 caracteres" });
-    return;
+    return true;
   }
 }
 
@@ -47,7 +47,7 @@ exports.getAll = async (req, res) => {
 };
 
 exports.getName = async (req, res) => {
-  validaId(res, req.params.id);
+  if(validaId(res, req.params.id)) return;
   await estados
     .findById(req.params.id)
     .then((estados) => {
@@ -66,7 +66,7 @@ exports.getName = async (req, res) => {
 };
 
 exports.postAdd = async (req, res) => {
-  validarAddUpdt(res, req.body);
+  if(validarAddUpdt(res, req.body)) return;
   await estados
     .create(req.body)
     .then(() => {
@@ -79,8 +79,8 @@ exports.postAdd = async (req, res) => {
 };
 
 exports.putUpdate = async (req, res) => {
-  validaId(res, req.params.id);
-  validarAddUpdt(res, req.body);
+  if(validaId(res, req.params.id)) return;
+  if(validarAddUpdt(res, req.body)) return;
   await estados
     .findByIdAndUpdate(req.params.id, req.body)
     .then(() => {
@@ -95,7 +95,7 @@ exports.putUpdate = async (req, res) => {
 };
 
 exports.deleteDell = async (req, res) => {
-  validaId(res, req.params.id);
+  if(validaId(res, req.params.id)) return;
   await estados
     .findByIdAndDelete(req.params.id)
     .then(() => {
