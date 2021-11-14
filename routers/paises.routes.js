@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const paises = require("./../model/paises");
+
 const paisesController = require("./../controller/paises.controller");
 
 router.get("/", (req, res) => {

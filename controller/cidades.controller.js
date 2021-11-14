@@ -69,18 +69,31 @@ exports.postAdd = async (req, res) => {
 };
 
 exports.putUpdate = async (req, res) => {
-  if (
-    !req.body.nome ||
-    !req.body.qtdBairros ||
-    !req.body.populacao ||
-    !req.body.deAniversario
-  ) {
+ if (!req.body.nome) {
+    res.status(400).send({
+      message: "NOME inválido. Verifique as informações da requisição no body.",
+    });
+    return;
+  } else if (!req.body.qtdBairros) {
     res.status(400).send({
       message:
-        "Informação para alteração não inserida/faltante. Por favor verifique o campo Body da requisição.",
+        "QTDBAIRROS inválida. Verifique as informações da requisição no body.",
     });
-
     return;
+  } else if (!req.body.populacao) {
+    res.status(400).send({
+      message:
+        "POPULAÇÃO inválida. Verifique as informações da requisição no body.",
+    });
+    return;
+  } else if (!req.body.dtAniversario) {
+    res.status(400).send({
+      message:
+        "DTANIVERSARIO inválida. Verifique as informações da requisição no body.",
+    });
+    return;
+  }
+  
   }
   await cidades
     .findByIdAndUpdate(req.params.id, req.body)
