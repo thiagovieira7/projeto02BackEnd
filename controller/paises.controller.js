@@ -46,7 +46,7 @@ exports.getAll = async (req, res) => {
 };
 
 exports.getName = async (req, res) => {
-  validaId(req.params.id);
+  validaId(res, req.params.id);
   await paises
     .findById(req.params.id)
     .then((paises) => {
@@ -65,7 +65,7 @@ exports.getName = async (req, res) => {
 };
 
 exports.postAdd = async (req, res) => {
-  validarAddUpdt(req, body);
+  validarAddUpdt(res, req.body);
   await paises
     .create(req.body)
     .then(() => {
@@ -78,8 +78,8 @@ exports.postAdd = async (req, res) => {
 };
 
 exports.putUpdate = async (req, res) => {
-  validaId(req.params.id);
-  validarAddUpdt(req, body);
+  validaId(res, req.params.id);
+  validarAddUpdt(res, req.body);
   await paises
     .findByIdAndUpdate(req.params.id, req.body)
     .then(() => {
@@ -92,7 +92,7 @@ exports.putUpdate = async (req, res) => {
 };
 
 exports.deleteDell = async (req, res) => {
-  validaId(req.params.id);
+  validaId(res, req.params.id);
   await paises
     .findByIdAndDelete(req.params.id)
     .then(() => {
