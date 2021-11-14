@@ -27,6 +27,13 @@ function validarAddUpdt(reqisicao) {
   }
 }
 
+function validaId(id) {
+  if (id.length !== 24) {
+    res.status(400).json({ message: "id precisa ter 24 caracteres" });
+    return;
+  }
+}
+
 exports.getAll = async (req, res) => {
   await cidades
     .find({})
@@ -40,6 +47,7 @@ exports.getAll = async (req, res) => {
 };
 
 exports.getName = async (req, res) => {
+  validaId(req.params.id);
   await cidades
     .findById(req.params.id)
     .then((cidades) => {
@@ -72,6 +80,7 @@ exports.postAdd = async (req, res) => {
 };
 
 exports.putUpdate = async (req, res) => {
+  validaId(req.params.id);
   validarAddUpdt(req, body);
   await cidades
     .findByIdAndUpdate(req.params.id, req.body)
@@ -87,11 +96,7 @@ exports.putUpdate = async (req, res) => {
 };
 
 exports.deleteDell = async (req, res) => {
-  if (!req.params.id.length !== 24) {
-    res.status(400).json({ message: "id precisa ter 24 caracteres" });
-    return;
-  }
-
+  validaId(req.params.id);
   await cidades
     .findByIdAndDelete(req.params.id)
     .then(() => {

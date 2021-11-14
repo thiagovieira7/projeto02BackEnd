@@ -26,6 +26,14 @@ function validarAddUpdt(reqisicao) {
     return;
   }
 }
+
+function validaId(id) {
+  if (id.length !== 24) {
+    res.status(400).json({ message: "id precisa ter 24 caracteres" });
+    return;
+  }
+}
+
 exports.getAll = async (req, res) => {
   await estados
     .find({})
@@ -39,6 +47,7 @@ exports.getAll = async (req, res) => {
 };
 
 exports.getName = async (req, res) => {
+  validaId(req.params.id);
   await estados
     .findById(req.params.id)
     .then((estados) => {
@@ -70,6 +79,7 @@ exports.postAdd = async (req, res) => {
 };
 
 exports.putUpdate = async (req, res) => {
+  validaId(req.params.id);
   validarAddUpdt(req, body);
   await estados
     .findByIdAndUpdate(req.params.id, req.body)
@@ -85,11 +95,7 @@ exports.putUpdate = async (req, res) => {
 };
 
 exports.deleteDell = async (req, res) => {
-  if (!req.params.id.length !== 24) {
-    res.status(400).json({ message: "id precisa ter 24 caracteres" });
-    return;
-  }
-
+  validaId(req.params.id);
   await estados
     .findByIdAndDelete(req.params.id)
     .then(() => {
