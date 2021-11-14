@@ -1,8 +1,6 @@
 const express = require("express");
 const router = express.Router();
 
-teste;
-
 router.get("/", (req, res) => {
   res.status(200).json({
     message:
