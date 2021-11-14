@@ -1,5 +1,31 @@
 const cidades = require("../model/cidades");
-const paises = require("../model/cidades");
+
+function validarAddUpdt(reqisicao) {
+  if (!reqisicao.nome) {
+    res.status(400).send({
+      message: "NOME inválido. Verifique as informações da requisição no body.",
+    });
+    return;
+  } else if (!reqisicao.qtdBairros) {
+    res.status(400).send({
+      message:
+        "QTDBAIRROS inválida. Verifique as informações da requisição no body.",
+    });
+    return;
+  } else if (!reqisicao.populacao) {
+    res.status(400).send({
+      message:
+        "POPULAÇÃO inválida. Verifique as informações da requisição no body.",
+    });
+    return;
+  } else if (!reqisicao.dtAniversario) {
+    res.status(400).send({
+      message:
+        "DTANIVERSARIO inválida. Verifique as informações da requisição no body.",
+    });
+    return;
+  }
+}
 
 exports.getAll = async (req, res) => {
   await cidades
@@ -32,30 +58,7 @@ exports.getName = async (req, res) => {
 };
 
 exports.postAdd = async (req, res) => {
-  if (!req.body.nome) {
-    res.status(400).send({
-      message: "NOME inválido. Verifique as informações da requisição no body.",
-    });
-    return;
-  } else if (!req.body.qtdBairros) {
-    res.status(400).send({
-      message:
-        "QTDBAIRROS inválida. Verifique as informações da requisição no body.",
-    });
-    return;
-  } else if (!req.body.populacao) {
-    res.status(400).send({
-      message:
-        "POPULAÇÃO inválida. Verifique as informações da requisição no body.",
-    });
-    return;
-  } else if (!req.body.dtAniversario) {
-    res.status(400).send({
-      message:
-        "DTANIVERSARIO inválida. Verifique as informações da requisição no body.",
-    });
-    return;
-  }
+  validarAddUpdt(req, body);
 
   await cidades
     .create(req.body)
@@ -69,32 +72,7 @@ exports.postAdd = async (req, res) => {
 };
 
 exports.putUpdate = async (req, res) => {
- if (!req.body.nome) {
-    res.status(400).send({
-      message: "NOME inválido. Verifique as informações da requisição no body.",
-    });
-    return;
-  } else if (!req.body.qtdBairros) {
-    res.status(400).send({
-      message:
-        "QTDBAIRROS inválida. Verifique as informações da requisição no body.",
-    });
-    return;
-  } else if (!req.body.populacao) {
-    res.status(400).send({
-      message:
-        "POPULAÇÃO inválida. Verifique as informações da requisição no body.",
-    });
-    return;
-  } else if (!req.body.dtAniversario) {
-    res.status(400).send({
-      message:
-        "DTANIVERSARIO inválida. Verifique as informações da requisição no body.",
-    });
-    return;
-  }
-  
-  }
+  validarAddUpdt(req, body);
   await cidades
     .findByIdAndUpdate(req.params.id, req.body)
     .then(() => {

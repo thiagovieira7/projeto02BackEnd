@@ -1,5 +1,30 @@
 const paises = require("../model/paises");
 
+function validarAddUpdt(reqisicao) {
+  if (!reqisicao.nome) {
+    res.status(400).json({
+      message: "NOME inválido. Verifique as informações da requisição no body.",
+    });
+    return;
+  } else if (!req.body.populacao) {
+    res.status(400).json({
+      message:
+        "POPULAÇÃO inválida. Verifique as informações da requisição no body",
+    });
+    return;
+  } else if (!req.body.linguaMae) {
+    res.status(400).json({
+      message:
+        "LINGUAMAE inválida. Verifique as informações da requisição no body.",
+    });
+    return;
+  } else if (!req.body.pib) {
+    res.status(400).json({
+      message: "PIB inválido. Verifique as informações da requisição no body.",
+    });
+    return;
+  }
+}
 exports.getAll = async (req, res) => {
   await paises
     .find({})
@@ -31,30 +56,7 @@ exports.getName = async (req, res) => {
 };
 
 exports.postAdd = async (req, res) => {
-  if (!req.body.nome) {
-    res.status(400).json({
-      message: "NOME inválido. Verifique as informações da requisição no body.",
-    });
-    return;
-  } else if (!req.body.populacao) {
-    res.status(400).json({
-      message:
-        "POPULAÇÃO inválida. Verifique as informações da requisição no body",
-    });
-    return;
-  } else if (!req.body.linguaMae) {
-    res.status(400).json({
-      message:
-        "LINGUAMAE inválida. Verifique as informações da requisição no body.",
-    });
-    return;
-  } else if (!req.body.pib) {
-    res.status(400).json({
-      message: "PIB inválido. Verifique as informações da requisição no body.",
-    });
-    return;
-  }
-
+  validarAddUpdt(req, body);
   await paises
     .create(req.body)
     .then(() => {
@@ -67,23 +69,7 @@ exports.postAdd = async (req, res) => {
 };
 
 exports.putUpdate = async (req, res) => {
-  if (!id) {
-    res.status(400).json({ message: "Faltando inserir o id na URL" });
-    return;
-  } else if (
-    !req.body.nome ||
-    !req.body.populacao ||
-    !req.body.linguaMae ||
-    !req.body.pib
-  ) {
-    res.status(400).json({
-      message:
-        "Informação para alteração não inserida/faltante. Por favor verifique o campo Body da requisição.",
-    });
-
-    return;
-  }
-
+  validarAddUpdt(req, body);
   await paises
     .findByIdAndUpdate(req.params.id, req.body)
     .then(() => {
