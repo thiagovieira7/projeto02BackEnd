@@ -2,7 +2,6 @@ const express = require("express");
 const router = express.Router();
 
 router.get("/", (req, res) => {
-  testando;
   res.status(200).json({
     message:
       "Dados por cidade.  Escolha entre as opções: ( /listall) ( /listname ) ( add ) ( update ) ( delete )",
